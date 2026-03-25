@@ -1,0 +1,15 @@
+### Criar um novo agendamento
+POST http://localhost:8080/agendamentos
+Content-Type: application/json
+
+{
+  "nomeCliente": "Gabriel",
+  "telefone": "15999999999",
+  "modeloCarro": "Porsche 911",
+  "servico": "Polimento Técnico e Vitrificação",
+  "dataHora": "2026-03-30T14:00:00",
+  "observacoes": "Cuidado com a pintura na porta direita."
+}
+
+### Listar todos os agendamentos (Para rodar depois de criar)
+GET http://localhost:8080/agendamentos
