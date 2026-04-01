@@ -5,8 +5,11 @@ import com.jfdetails.api.repositories.AgendamentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +38,18 @@ public class AgendamentoService {
     // Um método bônus para podermos listar os agendamentos depois
     public List<Agendamento> listarTodos() {
         return agendamentoRepository.findAll();
+    }
+    public List<String> buscarHorariosOcupados(LocalDate data) {
+        // Define o início do dia (00:00:00) e o fim (23:59:59)
+        LocalDateTime inicioDoDia = data.atStartOfDay();
+        LocalDateTime fimDoDia = data.atTime(LocalTime.MAX);
+
+        // Busca no banco
+        List<Agendamento> agendamentosDoDia = agendamentoRepository.findAllByDataHoraBetween(inicioDoDia, fimDoDia);
+
+        // Transforma a lista de Agendamentos em uma lista de horas: ["08:00", "14:00"]
+        return agendamentosDoDia.stream()
+                .map(agendamento -> agendamento.getDataHora().toLocalTime().toString())
+                .collect(Collectors.toList());
     }
 }

@@ -5,15 +5,18 @@ import com.jfdetails.api.models.Agendamento;
 import com.jfdetails.api.services.AgendamentoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/agendamentos")
-@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 
 public class AgendamentoController {
@@ -42,5 +45,12 @@ public class AgendamentoController {
     @GetMapping
     public ResponseEntity<List<Agendamento>> listarAgendamentos() {
         return ResponseEntity.ok(agendamentoService.listarTodos());
+    }
+    @GetMapping("/ocupados")
+    public ResponseEntity<List<String>> buscarOcupados(
+            @RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
+
+        List<String> horariosOcupados = agendamentoService.buscarHorariosOcupados(data);
+        return ResponseEntity.ok(horariosOcupados);
     }
 }

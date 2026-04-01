@@ -30,6 +30,5 @@ public class AgendamentoRequestDTO {
 
     private String observacoes;
 
-    // Repare: NÃO colocamos o campo "id" aqui.
-    // O usuário de fora da internet nunca pode enviar um ID para nós.
+
 }
